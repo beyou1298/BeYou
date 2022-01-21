@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:fragment = "content" th:remove = "tag">
+	<div class="form-group row">
+		The following information is important to calculate shipping cost of the product.</br>
+		The dimensions (L X W X H) is for the box that is used to package the product - not the product dimensions 
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Length (inch):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="number" step= "0.01" class="form-control" th:field="*{length}"/>	
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Width (inch):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="number" step= "0.01" class="form-control" th:field="*{width}"/>	
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Height (inch):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="number" step= "0.01" class="form-control" th:field="*{height}"/>	
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Weight (pounds):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="number" step= "0.01" class="form-control" th:field="*{weight}"/>	
+		</div>
+	</div>
+
+	
+
+</div>
+</body>
+</html>

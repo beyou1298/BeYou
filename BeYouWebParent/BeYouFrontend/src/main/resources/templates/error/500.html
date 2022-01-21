@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+		<!--XML namespace-->
+
+<head th:replace="fragments :: page_head('Internal Server Error - BeYou', 'none')"/>
+<body>
+    <div>
+        <!--"This is the CSS class for responsive webpage provided by Bootstrap framework. And we show the page heading in a sub div section"-->
+        <div class="container-fluid">
+            <div th:replace="navigation :: header_menu"></div>
+        </div>
+    
+        <div class="m-3">
+            <h2>Sorry, the server has encountered an error while processing your request</h2>
+        </div>
+            
+        <!--In the footer, we have the text... application name and copyright notice: BeYou Control Panel-->
+        <div th:replace="navigation :: footer_menu"></div>
+    
+    </div>
+</body>
+</html>

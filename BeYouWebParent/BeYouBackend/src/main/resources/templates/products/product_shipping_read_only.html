@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:fragment = "content" th:remove = "tag">
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Length (inch):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="text"  class="form-control" th:value="${product.length}" readonly/>	
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Width (inch):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="text"  class="form-control" th:value="${product.width}" readonly/>	
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Height (inch):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="text"  class="form-control" th:value="${product.height}" readonly/>	
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<!--Number 4 is the width of the columns in a grid system defined by Bootstrap. And small (sm) meaning that the column...
+		will be responsive on the small screen.-->
+		<label class="col-sm-2 col-form-label">Weight (pounds):</label>
+		<!--Number 8 is widhth of column-->
+		<div class="col-sm-10"> 							<!--And for the validation of this email, we need reuired attribute-->
+			<input type="text"  class="form-control" th:value="${product.weight}" readonly/>	
+		</div>
+	</div>
+</div>
+</body>
+</html>

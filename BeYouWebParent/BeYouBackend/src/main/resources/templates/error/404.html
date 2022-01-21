@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+		<!--XML namespace-->
+
+<head th:replace="fragments :: page_head('Error - BeYou Admin', 'none')"/>
+<body>
+    <div>
+        <!--"This is the CSS class for responsive webpage provided by Bootstrap framework. And we show the page heading in a sub div section"-->
+        <div class="container-fluid">
+            <div th:replace="navigation :: menu"></div>
+        </div>
+    
+        <div class="m-3">
+            <h2>Sorry, The requested page could not be found</h2>
+        </div>
+            
+        <!--In the footer, we have the text... application name and copyright notice: BeYou Control Panel-->
+        <div th:replace="fragments :: footer"></div>
+    
+    </div>
+</body>
+</html>

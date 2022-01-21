@@ -1,0 +1,47 @@
+server:
+  # servlet:
+  #   context-path: /BeYou
+  port: 80
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/beyoudb
+    password: warmachine42
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 2
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'false'
+
+
+  security:
+    oauth2:
+        client:
+            registration:
+                google:
+                    client-id: 446606129699-a8ou4471odqh369qn2pptgj6oi4j279h.apps.googleusercontent.com
+                    client-secret: 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
+                    scope:
+                    - email
+                    - profile
+                facebook:
+                    client-id: 619135996073048
+                    client-secret: ff269621b92b50ea788d7fa4b89316a2
+                    scope:
+                    - email
+                    - public_profile
+
+    
+
+    
+
+
+
+
+
