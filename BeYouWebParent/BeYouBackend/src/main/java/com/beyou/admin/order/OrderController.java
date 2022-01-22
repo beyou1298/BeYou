@@ -32,23 +32,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class OrderController {
+	private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
+	
+	@Autowired private OrderService orderService;
+	@Autowired private SettingService settingService;
 
-    private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
-
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private SettingService settingService;
-
-   
 	@GetMapping("/orders")
 	public String listFirstPage() {
 		return defaultRedirectURL;
 	}
 	
-
-    @GetMapping("/orders/page/{pageNum}")
+	@GetMapping("/orders/page/{pageNum}")
 	public String listByPage(
 			@PagingAndSortingParam(listName = "listOrders", moduleURL = "/orders") PagingAndSortingHelper helper,
 			@PathVariable(name = "pageNum") int pageNum,
@@ -58,61 +52,59 @@ public class OrderController {
 		orderService.listByPage(pageNum, helper);
 		loadCurrencySetting(request);
 		
-		if(!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson") && loggedUser.hasRole("Shipper")){
+		if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson") && loggedUser.hasRole("Shipper")) {
 			return "orders/orders_shipper";
 		}
+		
 		return "orders/orders";
 	}
-
-    private void loadCurrencySetting(HttpServletRequest request) {
+	
+	private void loadCurrencySetting(HttpServletRequest request) {
 		List<Setting> currencySettings = settingService.getCurrencySettings();
 		
 		for (Setting setting : currencySettings) {
 			request.setAttribute(setting.getKey(), setting.getValue());
 		}	
-	}
-
+	}	
+	
 	@GetMapping("/orders/detail/{id}")
-    public String viewOrderDetails(@PathVariable("id") Integer id,Model model,
-		RedirectAttributes ra, HttpServletRequest request,
-		@AuthenticationPrincipal BeYouUserDetails loggedUser){
-
-        try {
-            Order order = orderService.get(id);
-			loadCurrencySetting(request);
+	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, 
+			RedirectAttributes ra, HttpServletRequest request,
+			@AuthenticationPrincipal BeYouUserDetails loggedUser) {
+		try {
+			Order order = orderService.get(id);
+			loadCurrencySetting(request);			
 			
 			boolean isVisibleForAdminOrSalesperson = false;
-
-			if(loggedUser.hasRole("Admin") || loggedUser.hasRole("Salesperson")){
+			
+			if (loggedUser.hasRole("Admin") || loggedUser.hasRole("Salesperson")) {
 				isVisibleForAdminOrSalesperson = true;
 			}
-
+			
 			model.addAttribute("isVisibleForAdminOrSalesperson", isVisibleForAdminOrSalesperson);
-            model.addAttribute("order", order);
-
-            return "orders/order_detail_modal";
-
-        } catch (OrderNotFoundException ex) {
-            ra.addFlashAttribute("message", ex.getMessage());
-
-            return defaultRedirectURL;
-        }
-
-    }
-
+			model.addAttribute("order", order);
+			
+			return "orders/order_detail_modal";
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return defaultRedirectURL;
+		}
+		
+	}
+	
 	@GetMapping("/orders/delete/{id}")
-    public String deleteOrder(@PathVariable(name="id") Integer id, Model model,RedirectAttributes ra){
-        try{
-            orderService.delete(id);       
-            ra.addFlashAttribute("message","The Order ID "+id+" has been deleted successfully");
-        }
-        catch(OrderNotFoundException ex){
-            ra.addFlashAttribute("message",ex.getMessage());          
-        }
-        return defaultRedirectURL;
-    }
-
-    @GetMapping("/orders/edit/{id}")
+	public String deleteOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			orderService.delete(id);;
+			ra.addFlashAttribute("message", "The order ID " + id + " has been deleted.");
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+		}
+		
+		return defaultRedirectURL;
+	}
+	
+	@GetMapping("/orders/edit/{id}")
 	public String editOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra,
 			HttpServletRequest request) {
 		try {
@@ -130,9 +122,8 @@ public class OrderController {
 			ra.addFlashAttribute("message", ex.getMessage());
 			return defaultRedirectURL;
 		}
-		
-	}
-
+	}	
+	
 	@PostMapping("/order/save")
 	public String saveOrder(Order order, HttpServletRequest request, RedirectAttributes ra) {
 		String countryName = request.getParameter("countryName");
