@@ -2,13 +2,13 @@ package com.beyou.shoppingcart;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import com.beyou.Utility;
+
+import com.beyou.ControllerHelper;
 import com.beyou.address.AddressService;
 import com.beyou.common.entity.Address;
 import com.beyou.common.entity.CartItem;
 import com.beyou.common.entity.Customer;
 import com.beyou.common.entity.ShippingRate;
-import com.beyou.customer.CustomerService;
 import com.beyou.shipping.ShippingRateService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class ShoppingCartController {
     @Autowired
     private ShoppingCartService cartService;
     @Autowired
-    private CustomerService customerService;
+    private ControllerHelper controllerHelper;
     @Autowired
     private AddressService addressService;
     @Autowired
@@ -31,7 +31,7 @@ public class ShoppingCartController {
 
     @GetMapping("/cart")
     public String viewCart(Model model, HttpServletRequest request){
-        Customer customer = getAuthenticatedCustomer(request);
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
         List<CartItem> cartItems = cartService.listCartItem(customer);
         
         float estimatedTotal = 0.01F;
@@ -58,11 +58,5 @@ public class ShoppingCartController {
         model.addAttribute("estimatedTotal", estimatedTotal);
 
         return "cart/shopping_cart";
-    }
-
-    private Customer getAuthenticatedCustomer(HttpServletRequest request){
-        String email = Utility.getEmailOfAuthenticatedCustomer(request);
-
-        return customerService.getCustomerByEmail(email);
     }
 }

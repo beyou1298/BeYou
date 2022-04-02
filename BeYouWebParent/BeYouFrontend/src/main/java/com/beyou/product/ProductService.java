@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 import com.beyou.common.entity.product.Product;
 import com.beyou.common.exception.ProductNotFoundException;
 
@@ -32,6 +34,15 @@ public class ProductService {
             throw new ProductNotFoundException("Could not find any product with alias "+alias);
         }
         return product;
+    }
+
+    public Product getProduct(Integer id) throws ProductNotFoundException{
+        try {
+            Product product = repo.findById(id).get();
+            return product;
+        } catch (NoSuchElementException ex) {
+            throw new ProductNotFoundException("Could not find any product with ID  "+id);
+        }
     }
     
     public Page<Product> search(String keyword, int pageNum){

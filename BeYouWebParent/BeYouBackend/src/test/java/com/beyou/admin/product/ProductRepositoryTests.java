@@ -119,4 +119,10 @@ public class ProductRepositoryTests {
 
         Product saveProduct = repo.save(product);
     }
+
+    @Test
+    public void testUdpateReviewCountAndAverageRating(){
+        Integer productId = 2;
+        repo.updateReviewCountAndAverageRating(productId);
+    }
 }

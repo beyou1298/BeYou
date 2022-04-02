@@ -14,10 +14,12 @@ import com.beyou.common.Constants;
 import com.beyou.common.entity.setting.Setting;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
 @Component
+@Order(-123)
 public class SettingFilter implements Filter {
 
     @Autowired

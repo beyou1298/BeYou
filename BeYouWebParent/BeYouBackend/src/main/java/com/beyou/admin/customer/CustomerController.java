@@ -3,6 +3,8 @@ package com.beyou.admin.customer;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.beyou.admin.paging.PagingAndSortingHelper;
 import com.beyou.admin.paging.PagingAndSortingParam;
 import com.beyou.common.entity.Country;
@@ -108,4 +110,27 @@ public class CustomerController {
         }
         return defaultRedirectURL;
     }
+
+    //standalone method for exporting data to csv
+    @GetMapping("/customers/export/csv")
+    public void exportToCSV(HttpServletResponse response) throws IOException{
+        List<Customer> listCustomers = service.listAll();
+        CustomerCsvExporter exporter = new CustomerCsvExporter();
+        exporter.export(listCustomers, response);
+    }
+
+    @GetMapping("/customers/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException{
+        List<Customer> listCustomers = service.listAll();
+        CustomerExcelExporter exporter = new CustomerExcelExporter();
+        exporter.export(listCustomers, response);
+    }
+
+    // @GetMapping("/customers/export/pdf")
+    // public void exportToPDF(HttpServletResponse response) throws IOException{
+    //     List<Customer> listCustomers = service.listAll();
+        
+    //     CustomerPDFExporter exporter = new CustomerPDFExporter();
+    //     exporter.export(listCustomers, response);
+    // }
 }

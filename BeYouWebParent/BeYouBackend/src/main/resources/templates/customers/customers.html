@@ -10,7 +10,20 @@
 
         <div>
             <h2>Manage Customers</h2>
-            <a th:href="@{/customers/export/csv}"class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
+
+            <Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
+                <a th:href="@{/customers/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a> 
+            </Button>
+    
+            &nbsp;| &nbsp;
+            <Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
+                <a th:href="@{/customers/export/excel}" class="fas fa-file-excel fa-2x icon-dark mr-2"></a> 
+            </Button>
+    
+            <!-- &nbsp;| &nbsp;
+            <Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
+                <a th:href="@{/customers/export/pdf}" class="fas fa-file-pdf fa-2x icon-dark mr-2"></a> 
+            </Button> -->
         </div>
 
 	</div>

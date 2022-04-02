@@ -66,11 +66,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             
             .antMatchers("/products/**").hasAnyAuthority("Admin","Editor")
 
+            .antMatchers("/products/detail/**", "/customers/detail/**").hasAnyAuthority("Admin","Salesperson","Editor","Assistant")
+
             .antMatchers("/orders","/orders/", "/orders/page/**", "/orders/detail/**").hasAnyAuthority("Admin","Salesperson","Shipper")
 
-            .antMatchers("/customers/**","/orders/**", "/get_shipping_cost").hasAnyAuthority("Admin","Salesperson")
+            .antMatchers("/customers/**","/orders/**", "/get_shipping_cost", "/reports/**").hasAnyAuthority("Admin","Salesperson")
 
             .antMatchers("/orders_shipper/update/**").hasAnyAuthority("Shipper")
+
+            .antMatchers("/reviews/**").hasAnyAuthority("Admin", "Assistant")
 
             .anyRequest().authenticated()
             .and()
@@ -90,7 +94,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/images/**","/js/**","/webjars/**");
     }
-
-    
     
 }

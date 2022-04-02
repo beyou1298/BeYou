@@ -1,5 +1,8 @@
 package com.beyou.admin.order;
 
+import java.util.Date;
+import java.util.List;
+
 import com.beyou.admin.paging.SearchRepository;
 import com.beyou.common.entity.order.Order;
 
@@ -24,4 +27,8 @@ public interface OrderRepository extends SearchRepository<Order, Integer> {
 
     public Long countById(Integer id);
 
+    @Query("SELECT NEW com.beyou.common.entity.order.Order(o.id, o.orderTime, o.productCost,"
+			+ " o.subTotal, o.total) FROM Order o WHERE"
+			+ " o.orderTime BETWEEN ?1 AND ?2 ORDER BY o.orderTime ASC")
+	public List<Order> findByOrderTimeBetween(Date startTime, Date endTime);
 }

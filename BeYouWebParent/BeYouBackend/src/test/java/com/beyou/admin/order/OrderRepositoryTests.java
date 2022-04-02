@@ -1,5 +1,8 @@
 package com.beyou.admin.order;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -174,4 +177,19 @@ public class OrderRepositoryTests {
 		Order updatedOrder = repo.save(order);
 	
 	}
+
+    @Test
+    public void testfindByOrderTimeBetween() throws ParseException{
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startTime = dateFormatter.parse("2021-08-01");
+        Date endTime = dateFormatter.parse("2021-08-31");
+
+        List<Order> listOrders = repo.findByOrderTimeBetween(startTime, endTime);
+
+        for(Order order : listOrders){
+            System.out.printf("%s | %s | %.2f | %.2f | %.2f \n",
+                    order.getId(), order.getOrderTime(), order.getProductCost(),
+                    order.getSubTotal(), order.getTotal());
+        }
+    }
 }

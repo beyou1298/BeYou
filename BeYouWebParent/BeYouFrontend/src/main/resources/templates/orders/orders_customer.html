@@ -124,8 +124,12 @@
 			
 	<div>&nbsp;</div>
 	<div th:replace="navigation :: footer_menu"></div>
+
 </div>
+
+<script th:src="@{/js/common_list.js}"></script>
 <script type="text/javascript">
+	moduleURL = "[[@{/orders}]]";
 	contextPath = "[[@{/}]]";
 	var csrfHeaderName = "[[${_csrf.headerName}]]";
 	var csrfValue = "[[${_csrf.token}]]";

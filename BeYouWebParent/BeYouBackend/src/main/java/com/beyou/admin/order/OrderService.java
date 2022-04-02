@@ -107,4 +107,7 @@ public class OrderService {
 		}
 
 	}
+	public List<Order> listAll(){
+		return (List<Order>) orderRepo.findAll(Sort.by("firstName").ascending());
+	}	
 }

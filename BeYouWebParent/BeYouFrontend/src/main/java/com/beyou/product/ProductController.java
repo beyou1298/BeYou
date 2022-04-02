@@ -2,11 +2,18 @@ package com.beyou.product;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.beyou.ControllerHelper;
 import com.beyou.category.CategoryService;
 import com.beyou.common.entity.Category;
+import com.beyou.common.entity.Customer;
+import com.beyou.common.entity.Review;
 import com.beyou.common.entity.product.Product;
 import com.beyou.common.exception.CategoryNotFoundException;
 import com.beyou.common.exception.ProductNotFoundException;
+import com.beyou.review.ReviewService;
+import com.beyou.review.vote.ReviewVoteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +29,17 @@ public class ProductController {
     private CategoryService categoryService;
 
     @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ReviewVoteService voteService;
+
+    @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ControllerHelper controllerHelper;
+    
 
     @GetMapping("/c/{category_alias}")
     public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,Model model) throws CategoryNotFoundException{
@@ -64,14 +81,31 @@ public class ProductController {
     }
 
     @GetMapping("/p/{product_alias}")
-    public String viewProductDetail(@PathVariable("product_alias") String alias, Model model){
+    public String viewProductDetail(@PathVariable("product_alias") String alias, Model model,
+    HttpServletRequest request){
 
         try{
             Product product = productService.getProduct(alias);
             List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
+            Page<Review> listReviews = reviewService.list3MostRecentReviewsByProduct(product);
+
+            Customer customer =  controllerHelper.getAuthenticatedCustomer(request);
+			
+			if (customer != null) {
+				boolean customerReviewed = reviewService.didCustomerReviewProduct(customer, product.getId());
+				voteService.markReviewsVotedForProductByCustomer(listReviews.getContent(), product.getId(), customer.getId());
+				
+				if (customerReviewed) {
+					model.addAttribute("customerReviewed", customerReviewed);
+				} else {
+					boolean customerCanReview = reviewService.canCustomerReviewProduct(customer, product.getId());
+					model.addAttribute("customerCanReview", customerCanReview);
+				}
+			}
             
             model.addAttribute("listCategoryParents",listCategoryParents);
             model.addAttribute("product",product);
+            model.addAttribute("listReviews",listReviews);
             model.addAttribute("pageTitle",product.getShortName());
             
             return "product/products_detail";
@@ -111,4 +145,6 @@ public class ProductController {
 
         return "product/search_result";
     }
+    
+    
 }

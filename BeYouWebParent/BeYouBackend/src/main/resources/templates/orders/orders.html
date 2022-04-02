@@ -5,7 +5,16 @@
 <div class="container-fluid">
 	<div th:replace="navigation :: menu"></div>
 	<div>
-		<h2>Manage Orders</h2>	
+		<h2>Manage Orders</h2>
+
+		<Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
+			<a th:href="@{/orders/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a> 
+		</Button>
+
+		&nbsp;| &nbsp;
+		<Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
+			<a th:href="@{/orders/export/excel}" class="fas fa-file-excel fa-2x icon-dark mr-2"></a> 
+		</Button>
 	</div>
 		
 	<div th:replace="fragments :: search_form_and_message" />

@@ -1,5 +1,6 @@
 package com.beyou.admin.order;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.beyou.admin.paging.PagingAndSortingHelper;
 import com.beyou.admin.paging.PagingAndSortingParam;
@@ -217,5 +219,19 @@ public class OrderController {
 		}
 		
 	}
+
+	@GetMapping("/orders/export/csv")
+    public void exportToCSV(HttpServletResponse response) throws IOException{
+        List<Order> listOrders = orderService.listAll();
+        OrderCsvExporter exporter = new OrderCsvExporter();
+        exporter.export(listOrders, response);
+    }
+
+    @GetMapping("/orders/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException{
+        List<Order> listOrders = orderService.listAll();
+        OrderExcelExporter exporter = new OrderExcelExporter();
+        exporter.export(listOrders, response);
+    }
 	
 }

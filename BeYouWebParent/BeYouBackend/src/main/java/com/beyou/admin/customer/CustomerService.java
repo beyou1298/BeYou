@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.data.domain.Sort;
 
 @Service
 @Transactional
@@ -88,5 +88,9 @@ public class CustomerService {
         }
 
         customerRepo.deleteById(id);
+    }
+
+    public List<Customer> listAll(){
+        return (List<Customer>) customerRepo.findAll(Sort.by("firstName").ascending());
     }
 }

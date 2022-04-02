@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import com.beyou.ControllerHelper;
 import com.beyou.Utility;
 import com.beyou.address.AddressService;
 import com.beyou.checkout.paypal.PayPalApiException;
@@ -19,7 +20,6 @@ import com.beyou.common.entity.Customer;
 import com.beyou.common.entity.ShippingRate;
 import com.beyou.common.entity.order.Order;
 import com.beyou.common.entity.order.PaymentMethod;
-import com.beyou.customer.CustomerService;
 import com.beyou.order.OrderService;
 import com.beyou.setting.CurrencySettingBag;
 import com.beyou.setting.EmailSettingBag;
@@ -42,9 +42,6 @@ public class CheckOutController {
     
     @Autowired
     private CheckOutService checkOutService;
-    
-    @Autowired
-    private CustomerService customerService;
 
     @Autowired 
     private AddressService addressService;
@@ -61,9 +58,11 @@ public class CheckOutController {
 
     @Autowired private PayPalService paypalService;
 
+    @Autowired private ControllerHelper controllerHelper;
+
     @GetMapping("/checkout")
     public String showCheckOutPage(Model model, HttpServletRequest request){
-        Customer customer = getAuthenticatedCustomer(request);
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
         Address defaultAddress = addressService.getDefaultAddress(customer);
         ShippingRate shippingRate = null;
@@ -99,19 +98,12 @@ public class CheckOutController {
         return "checkout/checkout";
     }
 
-
-    private Customer getAuthenticatedCustomer(HttpServletRequest request){
-        String email = Utility.getEmailOfAuthenticatedCustomer(request);
-
-        return customerService.getCustomerByEmail(email);
-    }
-
     @PostMapping("/place_order")
     public String placeOrder(HttpServletRequest request) throws UnsupportedEncodingException, MessagingException{
         String paymentType = request.getParameter("paymentMethod");
         PaymentMethod paymentMethod = PaymentMethod.valueOf(paymentType);
 
-        Customer customer = getAuthenticatedCustomer(request);
+        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
         Address defaultAddress = addressService.getDefaultAddress(customer);
         ShippingRate shippingRate = null;

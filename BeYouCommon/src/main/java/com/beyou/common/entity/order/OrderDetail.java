@@ -3,6 +3,7 @@ package com.beyou.common.entity.order;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.beyou.common.entity.Category;
 import com.beyou.common.entity.product.Product;
 
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,29 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    
+    public OrderDetail() {
+    }
+
+    
+    public OrderDetail(String categoryName, int quantity, float productCost, float shippingCost, float subTotal) {
+        this.product = new Product();
+        this.product.setCategory(new Category(categoryName));
+        this.quantity = quantity;
+        this.productCost = productCost;
+        this.shippingCost = shippingCost;
+        this.subTotal = subTotal;
+    }
+
+    public OrderDetail( int quantity, String productName, float productCost, float shippingCost, float subTotal) {
+        this.product = new Product(productName);
+        this.quantity = quantity;
+        this.productCost = productCost;
+        this.shippingCost = shippingCost;
+        this.subTotal = subTotal;
+    }
+
 
     public Integer getId() {
         return id;
