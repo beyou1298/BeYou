@@ -7,7 +7,7 @@ var fieldTotal;
 $(document).ready(function() {
 	
 	fieldProductCost = $("#productCost");
-	fieldSubtotal = $("#subTotal");
+	fieldSubtotal = $("#subtotal");
 	fieldShippingCost = $("#shippingCost");
 	fieldTax = $("#tax");
 	fieldTotal = $("#total");
@@ -51,12 +51,12 @@ function updateOrderAmounts() {
 	
 	orderSubtotal = 0.0;
 	
-	$(".subTotal-output").each(function(e) {
+	$(".subtotal-output").each(function(e) {
 		productSubtotal = getNumberValueRemovedThousandSeparator($(this));
 		orderSubtotal += productSubtotal;
 	});
 	
-	setAndFormatNumberForField("subTotal", orderSubtotal);
+	setAndFormatNumberForField("subtotal", orderSubtotal);
 	
 	shippingCost = 0.0;
 	
@@ -111,7 +111,7 @@ function formatProductAmounts() {
 		formatNumberForField($(this));
 	});	
 	
-	$(".subTotal-output").each(function(e) {
+	$(".subtotal-output").each(function(e) {
 		formatNumberForField($(this));
 	});	
 	
@@ -149,7 +149,7 @@ function processFormBeforeSubmit() {
 		removeThousandSeparatorForField($(this));
 	});
 	
-	$(".subTotal-output").each(function(e) {
+	$(".subtotal-output").each(function(e) {
 		removeThousandSeparatorForField($(this));
 	});			
 	

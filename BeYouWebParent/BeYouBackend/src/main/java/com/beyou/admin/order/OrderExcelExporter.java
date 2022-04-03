@@ -120,13 +120,13 @@ public class OrderExcelExporter extends AbstractExporter{
             createCell(row, columnIndex++, String.valueOf(order.getOrderTime()), cellStyle);
             createCell(row, columnIndex++, order.getShippingCost(), cellStyle);
             createCell(row, columnIndex++, order.getProductCost(), cellStyle);
-            createCell(row, columnIndex++, order.getSubTotal(), cellStyle);
+            createCell(row, columnIndex++, order.getSubtotal(), cellStyle);
             createCell(row, columnIndex++, order.getTax(), cellStyle);
             createCell(row, columnIndex++, order.getTotal(), cellStyle);
             createCell(row, columnIndex++, order.getDeliverDays(), cellStyle);
-            createCell(row, columnIndex++, String.valueOf(order.getDeliveryDate()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(order.getDeliverDate()), cellStyle);
             createCell(row, columnIndex++, String.valueOf(order.getPaymentMethod()), cellStyle);
-            createCell(row, columnIndex++, String.valueOf(order.getOrderStatus()), cellStyle);
+            createCell(row, columnIndex++, String.valueOf(order.getStatus()), cellStyle);
         }
     }
 }

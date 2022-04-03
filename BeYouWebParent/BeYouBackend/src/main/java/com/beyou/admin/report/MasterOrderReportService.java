@@ -46,7 +46,7 @@ public class MasterOrderReportService extends AbstractReportService {
 				reportItem = listReportItems.get(itemIndex);
 				
 				reportItem.addGrossSales(order.getTotal());
-				reportItem.addNetSales(order.getSubTotal() - order.getProductCost());
+				reportItem.addNetSales(order.getSubtotal() - order.getProductCost());
 				reportItem.increaseOrdersCount();
 			}
 		}

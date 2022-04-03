@@ -57,10 +57,10 @@
 				<tr>
 					<td>Subtotal:</td>
 					<td>
-						<input type="text" readonly="readonly" class="form-control m-1 subTotal-output"
-							name="productSubTotal"
+						<input type="text" readonly="readonly" class="form-control m-1 subtotal-output"
+							name="productSubtotal"
 							th:id="'subtotal' + ${status.count}" 
-							th:value="${detail.subTotal}" style="max-width: 140px"/>
+							th:value="${detail.subtotal}" style="max-width: 140px"/>
 					</td>
 				</tr>				
 				<tr>
@@ -82,5 +82,3 @@
 	
 	<a th:href="@{/orders/search_product}" id="linkAddProduct" class="btn btn-success">Add a Product</a>
 </div>
-</body>
-</html>

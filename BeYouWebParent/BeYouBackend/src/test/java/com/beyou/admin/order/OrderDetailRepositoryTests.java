@@ -35,7 +35,7 @@ public class OrderDetailRepositoryTests {
             System.out.printf("%-30s | %d | %10.2f t| %10.2f \t| %10.2f \n",
                     detail.getProduct().getCategory().getName(),
                     detail.getQuantity(), detail.getProductCost(),
-                    detail.getShippingCost(), detail.getSubTotal());
+                    detail.getShippingCost(), detail.getSubtotal());
         }   
     }
 
@@ -51,7 +51,7 @@ public class OrderDetailRepositoryTests {
             System.out.printf("%-30s | %d | %10.2f t| %10.2f \t| %10.2f \n",
                     detail.getProduct().getName(),
                     detail.getQuantity(), detail.getProductCost(),
-                    detail.getShippingCost(), detail.getSubTotal());
+                    detail.getShippingCost(), detail.getSubtotal());
         }   
     }
 }

@@ -46,12 +46,12 @@ public class OrderRepositoryTests {
         mainOrder.setShippingCost(10);
         mainOrder.setProductCost(product.getCost());
         mainOrder.setTax(0);
-        mainOrder.setSubTotal(product.getPrice());
+        mainOrder.setSubtotal(product.getPrice());
         mainOrder.setTotal(product.getPrice() + 10);
 
         mainOrder.setPaymentMethod(PaymentMethod.CREDIT_CARD);
-        mainOrder.setOrderStatus(OrderStatus.NEW);
-        mainOrder.setDeliveryDate(new Date());
+        mainOrder.setStatus(OrderStatus.NEW);
+        mainOrder.setDeliverDate(new Date());
         mainOrder.setDeliverDays(1);
 
         OrderDetail orderDetail = new OrderDetail();
@@ -60,7 +60,7 @@ public class OrderRepositoryTests {
         orderDetail.setProductCost(product.getCost());
         orderDetail.setShippingCost(10);
         orderDetail.setQuantity(1);
-        orderDetail.setSubTotal(product.getPrice());
+        orderDetail.setSubtotal(product.getPrice());
         orderDetail.setUnitPrice(product.getPrice());
 
         mainOrder.getOrderDetails().add(orderDetail);
@@ -87,7 +87,7 @@ public class OrderRepositoryTests {
         orderDetail1.setProductCost(product1.getCost());
         orderDetail1.setShippingCost(10);
         orderDetail1.setQuantity(1);
-        orderDetail1.setSubTotal(product1.getPrice());
+        orderDetail1.setSubtotal(product1.getPrice());
         orderDetail1.setUnitPrice(product1.getPrice());
 
         OrderDetail orderDetail2 = new OrderDetail();
@@ -96,7 +96,7 @@ public class OrderRepositoryTests {
         orderDetail2.setProductCost(product2.getCost());
         orderDetail2.setShippingCost(20);
         orderDetail2.setQuantity(2);
-        orderDetail2.setSubTotal(product2.getPrice() * 2);
+        orderDetail2.setSubtotal(product2.getPrice() * 2);
         orderDetail2.setUnitPrice(product2.getPrice());
 
         mainOrder.getOrderDetails().add(orderDetail1);
@@ -106,12 +106,12 @@ public class OrderRepositoryTests {
         mainOrder.setProductCost(product1.getCost() + product2.getCost());
         mainOrder.setTax(0);
         float subtotal = product1.getPrice() + product2.getPrice() * 2;
-        mainOrder.setSubTotal(subtotal);
+        mainOrder.setSubtotal(subtotal);
         mainOrder.setTotal(subtotal + 30);
 
         mainOrder.setPaymentMethod(PaymentMethod.CREDIT_CARD);
-        mainOrder.setOrderStatus(OrderStatus.PACKAGED);
-        mainOrder.setDeliveryDate(new Date());
+        mainOrder.setStatus(OrderStatus.PACKAGED);
+        mainOrder.setDeliverDate(new Date());
         mainOrder.setDeliverDays(3);
 
         Order savedOrder = repo.save(mainOrder);
@@ -129,7 +129,7 @@ public class OrderRepositoryTests {
         Integer orderId = 2;
         Order order = repo.findById(orderId).get();
 
-        order.setOrderStatus(OrderStatus.SHIPPING);
+        order.setStatus(OrderStatus.SHIPPING);
         order.setPaymentMethod(PaymentMethod.COD);
         order.setOrderTime(new Date());
         order.setDeliverDays(2);
@@ -189,7 +189,7 @@ public class OrderRepositoryTests {
         for(Order order : listOrders){
             System.out.printf("%s | %s | %.2f | %.2f | %.2f \n",
                     order.getId(), order.getOrderTime(), order.getProductCost(),
-                    order.getSubTotal(), order.getTotal());
+                    order.getSubtotal(), order.getTotal());
         }
     }
 }

@@ -1,7 +1,8 @@
-var trackRecordCount
-$(document).ready(function() { 
-	trackRecordCount = $(".hiddenTrackId").length;
+var trackRecordCount;
 
+$(document).ready(function() {
+	trackRecordCount = $(".hiddenTrackId").length;
+	
 	$("#trackList").on("click", ".linkRemoveTrack", function(e) {
 		e.preventDefault();
 		deleteTrack($(this));

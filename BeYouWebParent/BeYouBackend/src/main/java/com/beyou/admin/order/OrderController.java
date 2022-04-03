@@ -1,6 +1,5 @@
 package com.beyou.admin.order;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.beyou.admin.paging.PagingAndSortingHelper;
 import com.beyou.admin.paging.PagingAndSortingParam;
@@ -34,23 +32,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class OrderController {
+	private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
+	
+	@Autowired private OrderService orderService;
+	@Autowired private SettingService settingService;
 
-    private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
-
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private SettingService settingService;
-
-   
 	@GetMapping("/orders")
 	public String listFirstPage() {
 		return defaultRedirectURL;
 	}
 	
-
-    @GetMapping("/orders/page/{pageNum}")
+	@GetMapping("/orders/page/{pageNum}")
 	public String listByPage(
 			@PagingAndSortingParam(listName = "listOrders", moduleURL = "/orders") PagingAndSortingHelper helper,
 			@PathVariable(name = "pageNum") int pageNum,
@@ -60,61 +52,59 @@ public class OrderController {
 		orderService.listByPage(pageNum, helper);
 		loadCurrencySetting(request);
 		
-		if(!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson") && loggedUser.hasRole("Shipper")){
+		if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson") && loggedUser.hasRole("Shipper")) {
 			return "orders/orders_shipper";
 		}
+		
 		return "orders/orders";
 	}
-
-    private void loadCurrencySetting(HttpServletRequest request) {
+	
+	private void loadCurrencySetting(HttpServletRequest request) {
 		List<Setting> currencySettings = settingService.getCurrencySettings();
 		
 		for (Setting setting : currencySettings) {
 			request.setAttribute(setting.getKey(), setting.getValue());
 		}	
-	}
-
+	}	
+	
 	@GetMapping("/orders/detail/{id}")
-    public String viewOrderDetails(@PathVariable("id") Integer id,Model model,
-		RedirectAttributes ra, HttpServletRequest request,
-		@AuthenticationPrincipal BeYouUserDetails loggedUser){
-
-        try {
-            Order order = orderService.get(id);
-			loadCurrencySetting(request);
+	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, 
+			RedirectAttributes ra, HttpServletRequest request,
+			@AuthenticationPrincipal BeYouUserDetails loggedUser) {
+		try {
+			Order order = orderService.get(id);
+			loadCurrencySetting(request);			
 			
 			boolean isVisibleForAdminOrSalesperson = false;
-
-			if(loggedUser.hasRole("Admin") || loggedUser.hasRole("Salesperson")){
+			
+			if (loggedUser.hasRole("Admin") || loggedUser.hasRole("Salesperson")) {
 				isVisibleForAdminOrSalesperson = true;
 			}
-
+			
 			model.addAttribute("isVisibleForAdminOrSalesperson", isVisibleForAdminOrSalesperson);
-            model.addAttribute("order", order);
-
-            return "orders/order_detail_modal";
-
-        } catch (OrderNotFoundException ex) {
-            ra.addFlashAttribute("message", ex.getMessage());
-
-            return defaultRedirectURL;
-        }
-
-    }
-
+			model.addAttribute("order", order);
+			
+			return "orders/order_details_modal";
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return defaultRedirectURL;
+		}
+		
+	}
+	
 	@GetMapping("/orders/delete/{id}")
-    public String deleteOrder(@PathVariable(name="id") Integer id, Model model,RedirectAttributes ra){
-        try{
-            orderService.delete(id);       
-            ra.addFlashAttribute("message","The Order ID "+id+" has been deleted successfully");
-        }
-        catch(OrderNotFoundException ex){
-            ra.addFlashAttribute("message",ex.getMessage());          
-        }
-        return defaultRedirectURL;
-    }
-
-    @GetMapping("/orders/edit/{id}")
+	public String deleteOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			orderService.delete(id);;
+			ra.addFlashAttribute("message", "The order ID " + id + " has been deleted.");
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+		}
+		
+		return defaultRedirectURL;
+	}
+	
+	@GetMapping("/orders/edit/{id}")
 	public String editOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra,
 			HttpServletRequest request) {
 		try {
@@ -133,8 +123,8 @@ public class OrderController {
 			return defaultRedirectURL;
 		}
 		
-	}
-
+	}	
+	
 	@PostMapping("/order/save")
 	public String saveOrder(Order order, HttpServletRequest request, RedirectAttributes ra) {
 		String countryName = request.getParameter("countryName");
@@ -187,7 +177,7 @@ public class OrderController {
 		String[] productPrices = request.getParameterValues("productPrice");
 		String[] productDetailCosts = request.getParameterValues("productDetailCost");
 		String[] quantities = request.getParameterValues("quantity");
-		String[] productSubtotals = request.getParameterValues("productSubTotal");
+		String[] productSubtotals = request.getParameterValues("productSubtotal");
 		String[] productShipCosts = request.getParameterValues("productShipCost");
 		
 		Set<OrderDetail> orderDetails = order.getOrderDetails();
@@ -209,7 +199,7 @@ public class OrderController {
 			orderDetail.setOrder(order);
 			orderDetail.setProduct(new Product(Integer.parseInt(productIds[i])));
 			orderDetail.setProductCost(Float.parseFloat(productDetailCosts[i]));
-			orderDetail.setSubTotal(Float.parseFloat(productSubtotals[i]));
+			orderDetail.setSubtotal(Float.parseFloat(productSubtotals[i]));
 			orderDetail.setShippingCost(Float.parseFloat(productShipCosts[i]));
 			orderDetail.setQuantity(Integer.parseInt(quantities[i]));
 			orderDetail.setUnitPrice(Float.parseFloat(productPrices[i]));
@@ -219,19 +209,5 @@ public class OrderController {
 		}
 		
 	}
-
-	@GetMapping("/orders/export/csv")
-    public void exportToCSV(HttpServletResponse response) throws IOException{
-        List<Order> listOrders = orderService.listAll();
-        OrderCsvExporter exporter = new OrderCsvExporter();
-        exporter.export(listOrders, response);
-    }
-
-    @GetMapping("/orders/export/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException{
-        List<Order> listOrders = orderService.listAll();
-        OrderExcelExporter exporter = new OrderExcelExporter();
-        exporter.export(listOrders, response);
-    }
 	
 }

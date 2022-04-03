@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Orders - BeYou Admin', 'none')" />
+<head th:replace="fragments :: page_head('Orders - Shopme Admin', 'none')" />
 <body>
 <div class="container-fluid">
 	<div th:replace="navigation :: menu"></div>
 	<div>
-		<h2>Manage Orders</h2>
-
-		<Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
-			<a th:href="@{/orders/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a> 
-		</Button>
-
-		&nbsp;| &nbsp;
-		<Button class="btn bg-black" style="padding: 10px; border: 2px; margin: 5px;">
-			<a th:href="@{/orders/export/excel}" class="fas fa-file-excel fa-2x icon-dark mr-2"></a> 
-		</Button>
+		<h2>Manage Orders</h2>	
 	</div>
 		
 	<div th:replace="fragments :: search_form_and_message" />
@@ -37,7 +28,7 @@
 					</th>
 					
 					<th class="hideable-column">
-					<th th:replace="fragments :: column_link('orderStatus', 'Status', 'tag')" />
+					<th th:replace="fragments :: column_link('status', 'Status', 'tag')" />
 					</th>
 					
 					<th></th>
@@ -59,7 +50,7 @@
 					</td>
 					<td class="hideable-column">[[${order.destination}]]</td>
 					<td class="hideable-column">[[${order.paymentMethod}]]</td>
-					<td class="hideable-column">[[${order.orderStatus}]]</td>
+					<td class="hideable-column">[[${order.status}]]</td>
 
 					<td>
 						<a class="fas fa-file-alt fa-2x icon-green linkOrderDetail"
@@ -84,7 +75,7 @@
 			</div>
 			<div class="col-10">
 				<div>[[${order.customer.fullName}]], [[${order.country}]]</div>
-				<div><small>[[${order.orderTime}]] - [[${order.orderStatus}]]</small></div>
+				<div><small>[[${order.orderTime}]] - [[${order.status}]]</small></div>
 				<div><div th:replace="fragments :: format_currency(${order.total})">Total</div> - [[${order.paymentMethod}]]</div>
 				<div>
 					<a class="fas fa-file-alt fa-2x icon-green linkOrderDetail"
