@@ -17,7 +17,7 @@ function loadStates4Country() {
 	selectedCountry = $("#country option:selected");
 	countryId = selectedCountry.val();
 	
-	url = contextPath + "states/list_by_countries/" + countryId;
+	url = contextPath + "states/list_by_country/" + countryId;
 	
 	$.get(url, function(responseJson) {
 		dropdownStates.empty();
@@ -28,4 +28,4 @@ function loadStates4Country() {
 	}).fail(function() {
 		showErrorModal("Error loading states/provinces for the selected country.");
 	})	
-}
+}	

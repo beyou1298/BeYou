@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/states/list_by_countries/**").hasAnyAuthority("Admin","Salesperson")
+            .antMatchers("/states/list_by_country/**").hasAnyAuthority("Admin","Salesperson")
             .antMatchers("/users/**", "/settings/**", "/countries/**", "/states/**").hasAuthority("Admin") //for denying the user to access the user page who is not admin
             .antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin","Editor") //for denying the user to access the user page who is not admin
 

@@ -5,9 +5,9 @@ import java.util.List;
 import com.beyou.common.entity.Country;
 import com.beyou.common.entity.State;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface StateRepository extends PagingAndSortingRepository<State,Integer> {
-    
-    public List<State> findByCountryOrderByNameAsc(Country country);
+public interface StateRepository extends CrudRepository<State, Integer> {
+	
+	public List<State> findByCountryOrderByNameAsc(Country country);
 }

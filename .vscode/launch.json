@@ -10,6 +10,17 @@
             "projectName": "BeYouFrontend",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BeYouBackendApplication<BeYouBackEnd>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.beyou.admin.BeYouBackendApplication",
+            "projectName": "BeYouBackEnd",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
